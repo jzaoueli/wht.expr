@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="hellojframe:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/hellojframe_jar</output-path>
+    <root id="archive" name="hellojframe.jar">
+      <element id="module-output" name="hellojframe" />
+    </root>
+  </artifact>
+</component>

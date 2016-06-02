@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_hellojframe" default="compile.module.hellojframe">
+  <dirname property="module.hellojframe.basedir" file="${ant.file.module_hellojframe}"/>
+  
+  <property name="module.jdk.home.hellojframe" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.hellojframe" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.hellojframe" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.hellojframe" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="hellojframe.output.dir" value="${module.hellojframe.basedir}/out/production/hellojframe"/>
+  <property name="hellojframe.testoutput.dir" value="${module.hellojframe.basedir}/out/test/hellojframe"/>
+  
+  <path id="hellojframe.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="hellojframe.module.production.classpath">
+    <path refid="${module.jdk.classpath.hellojframe}"/>
+  </path>
+  
+  <path id="hellojframe.runtime.production.module.classpath">
+    <pathelement location="${hellojframe.output.dir}"/>
+  </path>
+  
+  <path id="hellojframe.module.classpath">
+    <path refid="${module.jdk.classpath.hellojframe}"/>
+    <pathelement location="${hellojframe.output.dir}"/>
+  </path>
+  
+  <path id="hellojframe.runtime.module.classpath">
+    <pathelement location="${hellojframe.testoutput.dir}"/>
+    <pathelement location="${hellojframe.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.hellojframe">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.hellojframe">
+    <patternset refid="excluded.from.module.hellojframe"/>
+  </patternset>
+  
+  <path id="hellojframe.module.sourcepath">
+    <dirset dir="${module.hellojframe.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.hellojframe" depends="compile.module.hellojframe.production,compile.module.hellojframe.tests" description="Compile module hellojframe"/>
+  
+  <target name="compile.module.hellojframe.production" depends="register.custom.compilers" description="Compile module hellojframe; production classes">
+    <mkdir dir="${hellojframe.output.dir}"/>
+    <javac2 destdir="${hellojframe.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.hellojframe}/javac">
+      <compilerarg line="${compiler.args.hellojframe}"/>
+      <bootclasspath refid="hellojframe.module.bootclasspath"/>
+      <classpath refid="hellojframe.module.production.classpath"/>
+      <src refid="hellojframe.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.hellojframe"/>
+    </javac2>
+    
+    <copy todir="${hellojframe.output.dir}">
+      <fileset dir="${module.hellojframe.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.hellojframe.tests" depends="register.custom.compilers,compile.module.hellojframe.production" description="compile module hellojframe; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.hellojframe" description="cleanup module">
+    <delete dir="${hellojframe.output.dir}"/>
+    <delete dir="${hellojframe.testoutput.dir}"/>
+  </target>
+</project>
