@@ -10,29 +10,29 @@ import java.awt.event.KeyListener;
 import static java.lang.Thread.sleep;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
-public class HelloAnimation extends JPanel implements ActionListener, KeyListener {
+public class Expr extends JPanel implements ActionListener, KeyListener {
 
 
     private int x = 200, y = 100, velX = 0, velY = 0;
-    private int tour = 1,st = 5;
+    private int tour = 1,st = 10;
     //int counterAP = 1, counterKR = 1, counterKP = 1;
 
 
-    private Timer timer = new Timer(0, this);
+    private Timer timer = new Timer(1, this);
     private int tt = 5;
 
     public static void main(String[] args) {
-        HelloAnimation helloAnimation = new HelloAnimation();
+        Expr expr = new Expr();
         JFrame jFrame = new JFrame();
-        jFrame.setTitle("animation JFrame");
+        jFrame.setTitle("Experiment");
         jFrame.setSize(1000, 700);
         jFrame.setVisible(true);
         jFrame.setBackground(Color.darkGray);
-        jFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        jFrame.add(helloAnimation);
+        //jFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        jFrame.add(expr);
     }
 
-    private HelloAnimation() {
+    private Expr() {
         timer.start();
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
