@@ -10,31 +10,60 @@ import java.awt.event.KeyListener;
 public class Experiment extends JPanel implements ActionListener, KeyListener {
 
 
-    private int x = 200, y = 100, velX = 0, velY = 0;
-    private int tour = 1, st = 10;
-    //int counterAP = 1, counterKR = 1, counterKP = 1;
+    private int x = 00, y = 100;
     private static int screenWidth = 0;
     private static int screenHeight = 0;
 
     private Timer timer = new Timer(1, this);
-    private int tt = 5;
     private int time = 0;
+    boolean finish = false;
+
+
+    private static int speedX, speedY;
 
     public static void main(String[] args) {
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        int width = gd.getDisplayMode().getWidth();
-        int height = gd.getDisplayMode().getHeight();
-        screenWidth = width;
-        screenHeight = height;
+        setUpFrame();
 
+        showStartFrame();
+
+        startExpr();
+
+        showEndFrame();
+    }
+
+    private static void setUpFrame() {
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        screenWidth = gd.getDisplayMode().getWidth();
+        screenHeight = gd.getDisplayMode().getHeight();
+    }
+
+    private static void startExpr() {
+        speedX = 1;
+        speedY = 1;
+        doExpr();
+        doUserChoice();
+    }
+
+    private static void doUserChoice() {
+
+    }
+
+    private static void showEndFrame() {
+
+    }
+
+    private static void showStartFrame() {
+
+    }
+
+    private static void doExpr() {
 
         Experiment expr = new Experiment();
         JFrame jFrame = new JFrame();
         jFrame.setTitle("Experiment");
-        jFrame.setSize(width, height);
+        jFrame.setSize(screenWidth, screenHeight);
         jFrame.setVisible(true);
         jFrame.setBackground(Color.darkGray);
-        //jFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         jFrame.add(expr);
     }
 
@@ -47,62 +76,22 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         graphics.setColor(Color.RED);
-        graphics.fillRect(x, y, 20, 20);
-        graphics.fillRect(500,x, 20, 20);
-
+        graphics.fillRect(x, y, 10, 10);
+        graphics.setColor(Color.GREEN);
+        graphics.fillRect(500, x, 10, 10);
     }
 
     public void actionPerformed(ActionEvent a) {
-        boolean run = false;
-
         time++;
-        double beschleunigungsfaktor = 0.000005;
-        int vNull = 1;
-        double bewegung = vNull + beschleunigungsfaktor * time;
-        if (time % 3 == 0) {
-
-
+        if (time % 10 == 0) {
             if (x < 800) {
-                x ++; //x + vNull + (int) bewegung;
+                x++;
                 repaint();
             } else {
                 x = 0;
                 repaint();
             }
         }
-        /*if (t < 2048) {
-            if (tt < 500) {
-                x = x +vNull+ (int)bewegung*time*time;
-                repaint();
-            } else if (tt < 1000) {
-                y = y + (int)bewegung*time;
-                repaint();
-            } else if (tt < 1500) {
-                x = x - (int)bewegung*time;
-                repaint();
-            } else if (tt < 2000) {
-                y = y - (int)bewegung*time;
-                repaint();
-            } else {
-                tour += 1;
-                tt = 1;
-                if (st > 0) st = st-1;
-                //if (timer.getDelay() > 0) timer.setDelay(timer.getDelay() - 1);
-            }
-
-            try {
-                sleep(st);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            tt += 1;
-        } else {
-            //timer.setDelay(timer.getInitialDelay());
-            tour = 1;
-            x = 200;
-            y = 100;
-        }*/
     }
 
 
