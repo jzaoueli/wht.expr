@@ -9,7 +9,7 @@ import java.awt.event.KeyListener;
 
 public class Experiment extends JPanel implements ActionListener, KeyListener {
 
-
+private static Control control;
     private int x = 00, y = 100;
     private static int screenWidth = 0;
     private static int screenHeight = 0;
@@ -17,11 +17,14 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
     private Timer timer = new Timer(1, this);
     private int time = 0;
     boolean finish = false;
-
+    public int state = 0;
 
     private static int speedX, speedY;
 
     public static void main(String[] args) {
+
+        control=new Control();
+
         setUpFrame();
 
         showStartFrame();
@@ -49,11 +52,11 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
     }
 
     private static void showEndFrame() {
-
+        System.out.println("EndFrame wird angezeigt");
     }
 
     private static void showStartFrame() {
-
+        System.out.println("StartFrame wird angezeigt");
     }
 
     private static void doExpr() {
@@ -97,7 +100,6 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
