@@ -11,7 +11,7 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
 
     private static Control control;
     private int xRed = 0, yRed = 100;
-    private int xGren = 0, yGreen = 100;
+    private int xGren = 100, yGreen = 0;
 
     private static int screenWidth = 0;
     private static int screenHeight = 0;
@@ -84,27 +84,28 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
         graphics.setColor(Color.RED);
         graphics.fillRect(xRed, yRed, 10, 10);
         graphics.setColor(Color.GREEN);
-        graphics.fillRect(500, xRed, 10, 10);
+        graphics.fillRect(xGren, yGreen, 10, 10);
     }
 
     public void actionPerformed(ActionEvent a) {
         control.actionPerformed(a);
         time++;
-        if (time % 10 == 0) {
+        if (time % 8 == 0) {
             if (xRed < 800) {
                 xRed++;
                 repaint();
-            } else {
-                xRed = 0;
-                repaint();
             }
+        }
+        if (time % 10 == 0) {
             if (yGreen < 600) {
                 yGreen++;
                 repaint();
-            } else {
-                yGreen = 0;
-                repaint();
             }
+        }
+        if(xRed == 800 || yGreen == 600){
+            finish = true;
+            System.err.println("this is the end with xred= "+ xRed+" and ygreen= "+yGreen);
+            timer.stop();
         }
     }
 
