@@ -1,18 +1,17 @@
 package experimentVersion2;
 
-/**
- * Created by Michael on 03.06.2016.
- */
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Control extends JFrame implements ActionListener{
-private int state=0, round=0;
+public class Control extends JFrame implements ActionListener {
+
+    private int state = 0, round = 0;
+
     // JPanel
     JPanel pnlButton;
+
     // Buttons
     JButton btnAddFlight = new JButton("Add Flight");
     JButton state0 = new JButton("0");
@@ -21,8 +20,18 @@ private int state=0, round=0;
     JButton state3 = new JButton("0");
     JButton state4 = new JButton("0");
 
+    @Override
+    public int getState() {
+        return state;
+    }
+
+    @Override
+    public void setState(int state) {
+        this.state = state;
+    }
+
     public Control(JPanel panel) {
-        pnlButton= panel;
+        pnlButton = panel;
         // FlightInfo setbounds
         btnAddFlight.setBounds(60, 400, 220, 30);
 
@@ -46,10 +55,9 @@ private int state=0, round=0;
     }
 
 
-
     public void actionPerformed(ActionEvent e) {
         if ("Next State".equals(e.getActionCommand())) {
-            System.out.println("Old State: "+state);
+            System.out.println("Old State: " + state);
             //btnAddFlight.setEnabled(false);
             switch (state) {
                 case 0:
@@ -69,11 +77,12 @@ private int state=0, round=0;
                     remove(state1);
                     add(state2);
                     repaint();
-                    if(round==11){
+                    if (round == 11) {
                         state++;
-                    round=0;}
-                    else {state--;
-                    round++;
+                        round = 0;
+                    } else {
+                        state--;
+                        round++;
                     }
 
                     break;
@@ -88,10 +97,10 @@ private int state=0, round=0;
                     remove(state3);
                     add(state4);
                     repaint();
-                    state=0;
+                    state = 0;
                     break;
             }
-            System.out.println("New State: "+state);
+            System.out.println("New State: " + state);
         } else {
 
         }
