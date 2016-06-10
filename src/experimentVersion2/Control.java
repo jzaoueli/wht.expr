@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 public class Control extends JFrame implements ActionListener{
 private int state=0, round=0;
     // JPanel
-    JPanel pnlButton = new JPanel();
+    JPanel pnlButton;
     // Buttons
     JButton btnAddFlight = new JButton("Add Flight");
     JButton state0 = new JButton("0");
@@ -21,7 +21,8 @@ private int state=0, round=0;
     JButton state3 = new JButton("0");
     JButton state4 = new JButton("0");
 
-    public Control() {
+    public Control(JPanel panel) {
+        pnlButton= panel;
         // FlightInfo setbounds
         btnAddFlight.setBounds(60, 400, 220, 30);
 
@@ -36,27 +37,18 @@ private int state=0, round=0;
         pnlButton.add(state2);
         pnlButton.add(state3);
         pnlButton.add(state4);
-        btnAddFlight.setActionCommand("test");
+        btnAddFlight.setActionCommand("Next State");
 
 
         add(pnlButton);
 
 
-        // JFrame properties
-        setSize(400, 400);
-        setBackground(Color.BLACK);
-        setTitle("Air Traffic Control");
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new Control();
-    }
+
 
     public void actionPerformed(ActionEvent e) {
-        if ("test".equals(e.getActionCommand())) {
+        if ("Next State".equals(e.getActionCommand())) {
             System.out.println("Old State: "+state);
             //btnAddFlight.setEnabled(false);
             switch (state) {
@@ -68,6 +60,7 @@ private int state=0, round=0;
                     break;
                 case 1:
                     remove(state0);
+                    repaint();
                     add(state1);
                     repaint();
                     state++;

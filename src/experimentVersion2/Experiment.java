@@ -21,9 +21,10 @@ private static Control control;
 
     private static int speedX, speedY;
 
-    public static void main(String[] args) {
 
-        control=new Control();
+
+    public static void main(String[] args) {
+new Experiment();
 
         setUpFrame();
 
@@ -71,6 +72,7 @@ private static Control control;
     }
 
     private Experiment() {
+        control=new Control(this);
         timer.start();
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
@@ -85,16 +87,7 @@ private static Control control;
     }
 
     public void actionPerformed(ActionEvent a) {
-        time++;
-        if (time % 10 == 0) {
-            if (x < 800) {
-                x++;
-                repaint();
-            } else {
-                x = 0;
-                repaint();
-            }
-        }
+       control.actionPerformed(a);
     }
 
 
