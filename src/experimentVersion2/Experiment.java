@@ -18,7 +18,7 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
 
     private Timer timer = new Timer(1, this);
     private int time = 0;
-    boolean finish = false;
+    private boolean finish = false;
     public int state = 0;
 
     private static int speedX, speedY;
@@ -62,6 +62,13 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
     }
 
     private static void doExpr() {
+        int input = JOptionPane.CANCEL_OPTION;
+        while (input != JOptionPane.OK_OPTION) {
+            input = JOptionPane.showConfirmDialog(null,
+                    "to start the experience please click on OK",
+                    "Perception experience",
+                    JOptionPane.OK_CANCEL_OPTION);
+        }
 
         Experiment expr = new Experiment();
         JFrame jFrame = new JFrame();
