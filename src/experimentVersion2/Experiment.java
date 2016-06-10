@@ -90,22 +90,26 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
     public void actionPerformed(ActionEvent a) {
         control.actionPerformed(a);
         time++;
-        if (time % 8 == 0) {
+        movePoints(8, 10);
+        if (xRed == 800 || yGreen == 600) {
+            finish = true;
+            System.err.println("this is the end with xred= " + xRed + " and ygreen= " + yGreen);
+            timer.stop();
+        }
+    }
+
+    private void movePoints(int modX, int modY) {
+        if (time % modX == 0) {
             if (xRed < 800) {
                 xRed++;
                 repaint();
             }
         }
-        if (time % 10 == 0) {
+        if (time % modY == 0) {
             if (yGreen < 600) {
                 yGreen++;
                 repaint();
             }
-        }
-        if(xRed == 800 || yGreen == 600){
-            finish = true;
-            System.err.println("this is the end with xred= "+ xRed+" and ygreen= "+yGreen);
-            timer.stop();
         }
     }
 
