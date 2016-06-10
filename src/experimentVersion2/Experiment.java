@@ -9,8 +9,10 @@ import java.awt.event.KeyListener;
 
 public class Experiment extends JPanel implements ActionListener, KeyListener {
 
-private static Control control;
-    private int x = 00, y = 100;
+    private static Control control;
+    private int xRed = 0, yRed = 100;
+    private int xGren = 0, yGreen = 100;
+
     private static int screenWidth = 0;
     private static int screenHeight = 0;
 
@@ -22,9 +24,8 @@ private static Control control;
     private static int speedX, speedY;
 
 
-
     public static void main(String[] args) {
-new Experiment();
+        new Experiment();
 
         setUpFrame();
 
@@ -72,7 +73,7 @@ new Experiment();
     }
 
     private Experiment() {
-        control=new Control(this);
+        control = new Control(this);
         timer.start();
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
@@ -81,13 +82,30 @@ new Experiment();
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         graphics.setColor(Color.RED);
-        graphics.fillRect(x, y, 10, 10);
+        graphics.fillRect(xRed, yRed, 10, 10);
         graphics.setColor(Color.GREEN);
-        graphics.fillRect(500, x, 10, 10);
+        graphics.fillRect(500, xRed, 10, 10);
     }
 
     public void actionPerformed(ActionEvent a) {
-       control.actionPerformed(a);
+        control.actionPerformed(a);
+        time++;
+        if (time % 10 == 0) {
+            if (xRed < 800) {
+                xRed++;
+                repaint();
+            } else {
+                xRed = 0;
+                repaint();
+            }
+            if (yGreen < 600) {
+                yGreen++;
+                repaint();
+            } else {
+                yGreen = 0;
+                repaint();
+            }
+        }
     }
 
 
