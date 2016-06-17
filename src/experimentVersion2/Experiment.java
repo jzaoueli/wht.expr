@@ -7,12 +7,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import static javax.swing.JOptionPane.*;
+
 public class Experiment extends JPanel implements ActionListener, KeyListener {
 
     private static Control control;
     private final int numberOfIterations = 1;
-    private int xRed = 0, yRed = 100, redMax = 800;
-    private int xGreen = 100, yGreen = 0, greenMax = 600;
+    private int xRed = 20 , yRed = 100, redMax = 800;
+    private int xGreen = 100, yGreen = 10, greenMax = 600;
 
     private static int screenWidth = 0;
     private static int screenHeight = 0;
@@ -20,7 +22,7 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
     private Timer timer = new Timer(1, this);
     private int time = 0;
     private boolean finish = false;
-    public int state = 0;
+    private int state = 1;
 
     private static int speedX, speedY;
     private ExperimentOutput out;
@@ -59,12 +61,12 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
     }
 
     private static void showStartFrame() {
-        int input = JOptionPane.CANCEL_OPTION;
-        while (input != JOptionPane.OK_OPTION) {
-            input = JOptionPane.showConfirmDialog(null,
+        int input = CANCEL_OPTION;
+        while (input != OK_OPTION) {
+            input = showConfirmDialog(null,
                     "to start the experience please click on OK",
                     "Perception experience",
-                    JOptionPane.OK_CANCEL_OPTION);
+                    OK_CANCEL_OPTION);
         }
     }
 
@@ -90,24 +92,52 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
         super.paintComponent(graphics);
         graphics.setColor(Color.RED);
         graphics.fillRect(xRed, yRed, 10, 10);
-        graphics.setColor(Color.GREEN);
-        graphics.fillRect(xGreen, yGreen, 10, 10);
+        //graphics.setColor(Color.GREEN);
+        //graphics.fillRect(xGreen, yGreen, 10, 10);
     }
 
     public void actionPerformed(ActionEvent a) {
         control.actionPerformed(a);
-        time++;
-        if (time % 8 == 0) {
-            if (xRed < redMax) {
-                movePoints(8, 10);
-                if (xRed == 800 || yGreen == 600) {
-                    finish = true;
-                    System.err.println("this is the end with xred= " + xRed + " and ygreen= " + yGreen);
-                    timer.stop();
-                    this.answer(2);
-                    out.writeToFile();
+        switch (state){
+            case 1:
+                doCycle(8,10,2);
+                break;
+            case 2:
+                askUserDialog(3);
+                //write result
+                break;
+            case 3:
+                doCycle(10,5,6);
+                break;
+            case 4:
+                //TODO
+                state += 1;
+                break;
+            case 5:
+                //TODO
+                state +=1;
+                break;
+            case 6:
+                //TODO
+                showMessageDialog(null, "test finish", "test", OK_OPTION );
+                timer.stop();
+                break;
+        }
+    }
 
-                }
+    private void doCycle(int modX, int modY, int nextState) {
+        time++;
+        if (xRed < redMax) {
+            movePoints(modX, modY);
+            if (xRed == 800 || yGreen == 600) {
+                finish = true;
+                System.err.println("this is the end with xred= " + xRed + " and ygreen= " + yGreen + "and time = " + time);
+                this.answer(2);
+                out.writeToFile();
+                time = 0;
+                state = nextState;
+                xRed = 20;
+                yGreen = 10;
             }
         }
     }
@@ -125,22 +155,26 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
         out.addIteration(0, this.computeSpeedRed(), this.computeSpeedGreen(), answer);
     }
 
-    private static int askUserDialog() {
+    private int askUserDialog(int nextState) {
         Object[] choices = {"GREEN", "RED", "SAME SPEED"};
         String initValue = "no choice";
         String message = "Witch point was faster?";
         String title = "Please choose an option";
-        int optionType = JOptionPane.YES_NO_CANCEL_OPTION;
-        int messageType = JOptionPane.QUESTION_MESSAGE;
-        return JOptionPane.showOptionDialog(null, message, title, optionType, messageType, null, choices, initValue);
+        int optionType = YES_NO_CANCEL_OPTION;
+        int messageType = QUESTION_MESSAGE;
+
+        int input = 3;
+        while (input != 0 && input != 1 && input != 2) {
+            input = showOptionDialog(null, message, title, optionType, messageType, null, choices, initValue);
+        }
+        state = nextState;
+        return input;
     }
 
     private void movePoints(int modX, int modY) {
         if (time % modX == 0) {
             if (xRed < redMax) {
                 xRed++;
-                repaint();
-
             }
         }
         if (time % 10 == 0) {
@@ -148,11 +182,11 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
                 if (time % modY == 0) {
                     if (yGreen < 600) {
                         yGreen++;
-                        repaint();
                     }
                 }
             }
         }
+        repaint();
     }
 
 
