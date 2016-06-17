@@ -1,4 +1,4 @@
-package experimentVersion2;
+package experiment;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -6,16 +6,16 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 /**
- * generate the experience data in csv file
+ * generate the experiment data in csv file
  */
-public class ExperimentOutput {
+public class ExperimentCSVDataFileGenerator {
     private String filename;
     private ArrayList<Integer> faster;
     private ArrayList<Float> speedRed, speedGreen;
     private int numberOfIterations, iteration;
     PrintWriter writer;
 
-    public ExperimentOutput(String filename, int numberOfIterations) {
+    public ExperimentCSVDataFileGenerator(String filename, int numberOfIterations) {
         this.filename = filename;
         this.numberOfIterations = numberOfIterations;
         this.speedRed = new ArrayList<>();

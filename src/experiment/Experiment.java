@@ -1,4 +1,4 @@
-package experimentVersion2;
+package experiment;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +26,7 @@ public class Experiment extends JPanel implements ActionListener {
     private static Experiment experiment;
 
     private static int speedX, speedY;
-    private static ExperimentOutput out=new ExperimentOutput("",10);
+    private static ExperimentCSVDataFileGenerator out=new ExperimentCSVDataFileGenerator("",10);
     private int modX,modY;
 
     public static void main(String[] args) {
@@ -67,8 +67,8 @@ public class Experiment extends JPanel implements ActionListener {
         int input = CANCEL_OPTION;
         while (input != OK_OPTION) {
             input = showConfirmDialog(null,
-                    "to start the experience please click on OK",
-                    "Perception experience",
+                    "to start the experiment please click on OK",
+                    "Perception experiment",
                     OK_CANCEL_OPTION);
         }
     }
@@ -130,7 +130,7 @@ public class Experiment extends JPanel implements ActionListener {
                 this.answer(input);
                 break;
             case 7:
-                showMessageDialog(null, "The experience result is in data folder", "Experience over", OK_OPTION);
+                showMessageDialog(null, "The experiment result is in data folder", "Experience over", OK_OPTION);
                 out.close();
                 experiment.timer.stop();
                 jFrame.dispose();
