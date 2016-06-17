@@ -12,8 +12,8 @@ import static javax.swing.JOptionPane.*;
 public class Experiment extends JPanel implements ActionListener {
 
     private final int numberOfIterations = 1;
-    private int xRed = 20, yRed = 100, redMax = 800;
-    private int xGreen = 100, yGreen = 10, greenMax = 600;
+    private int xRed = 100, yRed = 100, redMax = 800;
+    private int xGreen = 100, yGreen = 100, greenMax = 600;
 
     private static int screenWidth = 0;
     private static int screenHeight = 0;
@@ -144,11 +144,10 @@ public class Experiment extends JPanel implements ActionListener {
             if (xRed == 800 || yGreen == 600) {
 
                 System.err.println("this is the end with xred= " + xRed + " and ygreen= " + yGreen + "and time = " + time);
-
                 time = 0;
                 state = nextState;
-                xRed = 20;
-                yGreen = 10;
+                xRed = 100;
+                yGreen = 100;
             }
         }
     }
