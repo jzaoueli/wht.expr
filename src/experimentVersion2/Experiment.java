@@ -26,7 +26,8 @@ public class Experiment extends JPanel implements ActionListener {
     private static Experiment experiment;
 
     private static int speedX, speedY;
-    private ExperimentOutput out;
+    private static ExperimentOutput out=new ExperimentOutput("",10);
+    private int modX,modY;
 
     public static void main(String[] args) {
         new Experiment();
@@ -62,6 +63,7 @@ public class Experiment extends JPanel implements ActionListener {
     }
 
     private static void showStartFrame() {
+        out.writeHeader();
         int input = CANCEL_OPTION;
         while (input != OK_OPTION) {
             input = showConfirmDialog(null,
@@ -86,7 +88,7 @@ public class Experiment extends JPanel implements ActionListener {
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-        this.out = new ExperimentOutput("Experiment-"+timeStamp+".csv", numberOfIterations);
+        this.out.setFilename("Experiment-"+timeStamp+".csv");
     }
 
     public void paintComponent(Graphics graphics) {
@@ -98,35 +100,45 @@ public class Experiment extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent a) {
+        int input=0;
         switch (state) {
             case 1:
-                doCycle(8, 10, 2);
+                modX = 2;
+                modY=4;
+                doCycle(2);
                 break;
             case 2:
-                askUserDialog(7);
+                input= askUserDialog(3);
+                this.answer(input);
                 break;
             case 3:
-                doCycle(10, 5, 4);
+                modX = 5;
+                modY=6;
+                doCycle(4);
                 break;
             case 4:
-                askUserDialog(5);
+                input=askUserDialog(5);
+                this.answer(input);
                 break;
             case 5:
-                doCycle(10,10,6);
+                modX = 6;
+                modY=9;
+                doCycle(6);
                 break;
             case 6:
-                askUserDialog(7);
+                input=askUserDialog(7);
+                this.answer(input);
                 break;
             case 7:
                 showMessageDialog(null, "The experience result is in data folder", "Experience over", OK_OPTION);
-                out.writeToFile();
+                out.close();
                 experiment.timer.stop();
                 jFrame.dispose();
                 break;
         }
     }
 
-    private void doCycle(int modX, int modY, int nextState) {
+    private void doCycle(int nextState) {
         time++;
         if (xRed < redMax) {
             movePoints(modX, modY);
@@ -142,10 +154,10 @@ public class Experiment extends JPanel implements ActionListener {
         }
     }
 
-    private void answer(int answer, int modRed, int modGreen) {
-        float speedRed=1/modRed;
-        float speedGreen=1/modGreen;
-        out.addIteration(0, speedRed, speedGreen, answer);
+    private void answer(int answer) {
+        float speedRed=1/modX;
+        float speedGreen=1/modY;
+        out.addIteration(speedRed, speedGreen, answer);
     }
 
     private int askUserDialog(int nextState) {
@@ -160,7 +172,7 @@ public class Experiment extends JPanel implements ActionListener {
         while (input != 0 && input != 1 && input != 2) {
             input = showOptionDialog(null, message, title, optionType, messageType, null, choices, initValue);
         }
-        this.answer(input,1,1);
+
 
         state = nextState;
         return input;
