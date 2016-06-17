@@ -58,10 +58,6 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
     }
 
     private static void showStartFrame() {
-        System.out.println("StartFrame wird angezeigt");
-    }
-
-    private static void doExpr() {
         int input = JOptionPane.CANCEL_OPTION;
         while (input != JOptionPane.OK_OPTION) {
             input = JOptionPane.showConfirmDialog(null,
@@ -69,7 +65,9 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
                     "Perception experience",
                     JOptionPane.OK_CANCEL_OPTION);
         }
+    }
 
+    private static void doExpr() {
         Experiment expr = new Experiment();
         JFrame jFrame = new JFrame();
         jFrame.setTitle("Experiment");
@@ -103,6 +101,16 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
             System.err.println("this is the end with xred= " + xRed + " and ygreen= " + yGreen);
             timer.stop();
         }
+    }
+
+    private static int askUserDialog() {
+        Object[] choices = {"GREEN", "RED", "SAME SPEED"};
+        String initValue = "no choice";
+        String message = "Witch point was faster?";
+        String title = "Please choose an option";
+        int optionType = JOptionPane.YES_NO_CANCEL_OPTION;
+        int messageType = JOptionPane.QUESTION_MESSAGE;
+        return JOptionPane.showOptionDialog(null, message, title, optionType, messageType, null, choices, initValue);
     }
 
     private void movePoints(int modX, int modY) {
