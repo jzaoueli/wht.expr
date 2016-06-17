@@ -26,8 +26,8 @@ public class Experiment extends JPanel implements ActionListener {
     private static Experiment experiment;
 
     private static int speedX, speedY;
-    private static ExperimentCSVDataFileGenerator out=new ExperimentCSVDataFileGenerator("",10);
-    private int modX,modY;
+    private static ExperimentCSVDataFileGenerator out = new ExperimentCSVDataFileGenerator("", 10);
+    private int modX, modY;
 
     public static void main(String[] args) {
         new Experiment();
@@ -35,9 +35,7 @@ public class Experiment extends JPanel implements ActionListener {
         setUpFrame();
         //setupGeneratedFile(filename)
         showStartFrame();
-
         startExpr();
-
         showEndFrame();
     }
 
@@ -62,15 +60,16 @@ public class Experiment extends JPanel implements ActionListener {
         System.out.println("EndFrame wird angezeigt");
     }
 
-    private static void showStartFrame() {
+    private static int showStartFrame() {
         out.writeHeader();
-        int input = CANCEL_OPTION;
-        while (input != OK_OPTION) {
-            input = showConfirmDialog(null,
-                    "to start the experiment please click on OK",
-                    "Perception experiment",
-                    OK_CANCEL_OPTION);
+        int input = showConfirmDialog(null,
+                "to start the experiment please click on OK",
+                "Perception experiment",
+                OK_CANCEL_OPTION);
+        if (input != OK_OPTION) {
+            System.exit(0);
         }
+        return input;
     }
 
     private static void doExpr() {
@@ -88,7 +87,7 @@ public class Experiment extends JPanel implements ActionListener {
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-        this.out.setFilename("Experiment-"+timeStamp+".csv");
+        this.out.setFilename("Experiment-" + timeStamp + ".csv");
     }
 
     public void paintComponent(Graphics graphics) {
@@ -100,33 +99,33 @@ public class Experiment extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent a) {
-        int input=0;
+        int input = 0;
         switch (state) {
             case 1:
                 modX = 2;
-                modY=4;
+                modY = 4;
                 doCycle(2);
                 break;
             case 2:
-                input= askUserDialog(3);
+                input = askUserDialog(3);
                 this.answer(input);
                 break;
             case 3:
                 modX = 5;
-                modY=6;
+                modY = 6;
                 doCycle(4);
                 break;
             case 4:
-                input=askUserDialog(5);
+                input = askUserDialog(5);
                 this.answer(input);
                 break;
             case 5:
                 modX = 6;
-                modY=9;
+                modY = 9;
                 doCycle(6);
                 break;
             case 6:
-                input=askUserDialog(7);
+                input = askUserDialog(7);
                 this.answer(input);
                 break;
             case 7:
