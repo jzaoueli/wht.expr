@@ -22,6 +22,9 @@ public class Experiment extends JPanel implements ActionListener {
     private int time = 0;
     private int state = 1;
 
+    private static JFrame jFrame;
+    private static Experiment experiment;
+
     private static int speedX, speedY;
     private ExperimentOutput out;
 
@@ -69,14 +72,14 @@ public class Experiment extends JPanel implements ActionListener {
     }
 
     private static void doExpr() {
-        Experiment expr = new Experiment();
-        expr.timer.start();
-        JFrame jFrame = new JFrame();
+        experiment = new Experiment();
+        experiment.timer.start();
+        jFrame = new JFrame();
         jFrame.setTitle("Experiment");
         jFrame.setSize(screenWidth, screenHeight);
         jFrame.setVisible(true);
         jFrame.setBackground(Color.darkGray);
-        jFrame.add(expr);
+        jFrame.add(experiment);
     }
 
     private Experiment() {
@@ -100,7 +103,7 @@ public class Experiment extends JPanel implements ActionListener {
                 doCycle(8, 10, 2);
                 break;
             case 2:
-                askUserDialog(3);
+                askUserDialog(7);
                 break;
             case 3:
                 doCycle(10, 5, 4);
@@ -117,7 +120,8 @@ public class Experiment extends JPanel implements ActionListener {
             case 7:
                 showMessageDialog(null, "The experience result is in data folder", "Experience over", OK_OPTION);
                 out.writeToFile();
-                timer.stop();
+                experiment.timer.stop();
+                jFrame.dispose();
                 break;
         }
     }
