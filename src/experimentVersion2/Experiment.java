@@ -100,23 +100,22 @@ public class Experiment extends JPanel implements ActionListener {
                 doCycle(8, 10, 2);
                 break;
             case 2:
-                    askUserDialog(3);
-                //write result
+                askUserDialog(3);
                 break;
             case 3:
-                doCycle(10, 5, 6);
+                doCycle(10, 5, 4);
                 break;
             case 4:
-                //TODO
-                state += 1;
+                askUserDialog(5);
                 break;
             case 5:
-                //TODO
-                state += 1;
+                doCycle(10,10,6);
                 break;
             case 6:
-                //TODO
-                showMessageDialog(null, "test finish", "test", OK_OPTION );
+                askUserDialog(7);
+                break;
+            case 7:
+                showMessageDialog(null, "The experience result is in data folder", "Experience over", OK_OPTION);
                 out.writeToFile();
                 timer.stop();
                 break;
@@ -138,8 +137,6 @@ public class Experiment extends JPanel implements ActionListener {
             }
         }
     }
-
-
 
     private void answer(int answer, int modRed, int modGreen) {
         float speedRed=1/modRed;
