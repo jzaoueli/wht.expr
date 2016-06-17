@@ -63,7 +63,9 @@ public class Experiment extends JPanel implements ActionListener {
     private static String showStartFrame() {
         out.writeHeader();
         String name = JOptionPane.showInputDialog(null,
-                "************Start Dialog************\nPlease write your name\n-the generated data file is with your name");
+                "Please write your name\n-the generated data file is with your name",
+                "     ************    Start Dialog   ************",
+                PLAIN_MESSAGE);
         System.out.print(name);
         if(name==null){
             System.exit(0);
@@ -77,6 +79,7 @@ public class Experiment extends JPanel implements ActionListener {
         jFrame = new JFrame();
         jFrame.setTitle("Experiment");
         jFrame.setSize(screenWidth, screenHeight);
+        jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jFrame.setVisible(true);
         jFrame.setBackground(Color.darkGray);
         jFrame.add(experiment);
@@ -85,8 +88,8 @@ public class Experiment extends JPanel implements ActionListener {
     private Experiment() {
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
-        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-        this.out.setFilename("Experiment-" + timeStamp + ".csv");
+        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm").format(new Date());
+        out.setFilename("Experiment-" + timeStamp + ".csv");
     }
 
     public void paintComponent(Graphics graphics) {
@@ -98,7 +101,7 @@ public class Experiment extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent a) {
-        int input = 0;
+        int input;
         switch (state) {
             case 1:
                 modX = 2;
@@ -128,7 +131,7 @@ public class Experiment extends JPanel implements ActionListener {
                 this.answer(input);
                 break;
             case 7:
-                showMessageDialog(null, "The experiment result is in data folder", "Experience over", OK_OPTION);
+                showMessageDialog(null, "The experiment result is in data folder", "Experience over", JOptionPane.WARNING_MESSAGE);
                 out.close();
                 experiment.timer.stop();
                 jFrame.dispose();
