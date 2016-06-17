@@ -10,7 +10,7 @@ import java.awt.event.KeyListener;
 public class Experiment extends JPanel implements ActionListener, KeyListener {
 
     private static Control control;
-    private final int numberOfIterations=1;
+    private final int numberOfIterations = 1;
     private int xRed = 0, yRed = 100, redMax = 800;
     private int xGreen = 100, yGreen = 0, greenMax = 600;
 
@@ -23,7 +23,7 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
     public int state = 0;
 
     private static int speedX, speedY;
-private ExperimentOutput out;
+    private ExperimentOutput out;
 
     public static void main(String[] args) {
         new Experiment();
@@ -66,6 +66,7 @@ private ExperimentOutput out;
                     "Perception experience",
                     JOptionPane.OK_CANCEL_OPTION);
         }
+    }
 
     private static void doExpr() {
         Experiment expr = new Experiment();
@@ -82,7 +83,7 @@ private ExperimentOutput out;
         timer.start();
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
-        this.out=new ExperimentOutput("testFile.txt", numberOfIterations);
+        this.out = new ExperimentOutput("testFile.txt", numberOfIterations);
     }
 
     public void paintComponent(Graphics graphics) {
@@ -112,17 +113,17 @@ private ExperimentOutput out;
     }
 
     private int computeSpeedRed() {
-       return 1;
+        return 1;
     }
 
     private int computeSpeedGreen() {
-   return 1;
+        return 1;
     }
 
-    private void answer(int answer){
+    private void answer(int answer) {
 
-    out.addIteration(0,this.computeSpeedRed(),this.computeSpeedGreen(),answer );
-}
+        out.addIteration(0, this.computeSpeedRed(), this.computeSpeedGreen(), answer);
+    }
 
     private static int askUserDialog() {
         Object[] choices = {"GREEN", "RED", "SAME SPEED"};
