@@ -33,7 +33,7 @@ public class Experiment extends JPanel implements ActionListener {
         new Experiment();
 
         setUpFrame();
-
+        //setupGeneratedFile(filename)
         showStartFrame();
 
         startExpr();
@@ -155,8 +155,8 @@ public class Experiment extends JPanel implements ActionListener {
     }
 
     private void answer(int answer) {
-        float speedRed=1/modX;
-        float speedGreen=1/modY;
+        float speedRed = 1 / modX;
+        float speedGreen = 1 / modY;
         out.addIteration(speedRed, speedGreen, answer);
     }
 
@@ -172,7 +172,7 @@ public class Experiment extends JPanel implements ActionListener {
         while (input != 0 && input != 1 && input != 2) {
             input = showOptionDialog(null, message, title, optionType, messageType, null, choices, initValue);
         }
-
+        this.answer(input);
 
         state = nextState;
         return input;
@@ -184,12 +184,10 @@ public class Experiment extends JPanel implements ActionListener {
                 xRed++;
             }
         }
-        if (time % 10 == 0) {
+        if (time % modY == 0) {
             if (yGreen < greenMax) {
-                if (time % modY == 0) {
-                    if (yGreen < 600) {
-                        yGreen++;
-                    }
+                if (yGreen < 600) {
+                    yGreen++;
                 }
             }
         }
