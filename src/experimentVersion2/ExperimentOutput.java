@@ -10,7 +10,8 @@ import java.util.ArrayList;
  */
 public class ExperimentOutput {
 private String filename;
-    private ArrayList<Integer> speedRed, speedGreen, faster;
+    private ArrayList<Integer>  faster;
+    private ArrayList<Float> speedRed, speedGreen;
     private int numberOfIterations;
 
     public ExperimentOutput(String filename, int numberOfIterations) {
@@ -41,7 +42,7 @@ private String filename;
 
     }
 
-    public void addIteration(int iteration, int SpeedX, int SpeedY,int Faster){
+    public void addIteration(int iteration, float SpeedX, float SpeedY,int Faster){
 speedRed.add(iteration, SpeedX);
         speedGreen.add(iteration, SpeedY);
         speedRed.add(iteration, SpeedX);

@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static javax.swing.JOptionPane.*;
 
@@ -80,7 +82,8 @@ public class Experiment extends JPanel implements ActionListener {
     private Experiment() {
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
-        this.out = new ExperimentOutput("testFile.txt", numberOfIterations);
+        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+        this.out = new ExperimentOutput("Experiment-"+timeStamp+".csv", numberOfIterations);
     }
 
     public void paintComponent(Graphics graphics) {
@@ -113,7 +116,8 @@ public class Experiment extends JPanel implements ActionListener {
                 break;
             case 6:
                 //TODO
-                showMessageDialog(null, "test finish", "test", OK_OPTION);
+                showMessageDialog(null, "test finish", "test", OK_OPTION );
+                out.writeToFile();
                 timer.stop();
                 break;
         }
@@ -124,9 +128,9 @@ public class Experiment extends JPanel implements ActionListener {
         if (xRed < redMax) {
             movePoints(modX, modY);
             if (xRed == 800 || yGreen == 600) {
+
                 System.err.println("this is the end with xred= " + xRed + " and ygreen= " + yGreen + "and time = " + time);
-                this.answer(2);
-                out.writeToFile();
+
                 time = 0;
                 state = nextState;
                 xRed = 20;
@@ -135,17 +139,12 @@ public class Experiment extends JPanel implements ActionListener {
         }
     }
 
-    private int computeSpeedRed() {
-        return 1;
-    }
 
-    private int computeSpeedGreen() {
-        return 1;
-    }
 
-    private void answer(int answer) {
-
-        out.addIteration(0, this.computeSpeedRed(), this.computeSpeedGreen(), answer);
+    private void answer(int answer, int modRed, int modGreen) {
+        float speedRed=1/modRed;
+        float speedGreen=1/modGreen;
+        out.addIteration(0, speedRed, speedGreen, answer);
     }
 
     private int askUserDialog(int nextState) {
@@ -160,6 +159,8 @@ public class Experiment extends JPanel implements ActionListener {
         while (input != 0 && input != 1 && input != 2) {
             input = showOptionDialog(null, message, title, optionType, messageType, null, choices, initValue);
         }
+        this.answer(input,1,1);
+
         state = nextState;
         return input;
     }
