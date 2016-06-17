@@ -4,16 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import static javax.swing.JOptionPane.*;
 
-public class Experiment extends JPanel implements ActionListener, KeyListener {
+public class Experiment extends JPanel implements ActionListener {
 
-    private static Control control;
     private final int numberOfIterations = 1;
-    private int xRed = 20 , yRed = 100, redMax = 800;
+    private int xRed = 20, yRed = 100, redMax = 800;
     private int xGreen = 100, yGreen = 10, greenMax = 600;
 
     private static int screenWidth = 0;
@@ -21,7 +18,6 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
 
     private Timer timer = new Timer(1, this);
     private int time = 0;
-    private boolean finish = false;
     private int state = 1;
 
     private static int speedX, speedY;
@@ -72,6 +68,7 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
 
     private static void doExpr() {
         Experiment expr = new Experiment();
+        expr.timer.start();
         JFrame jFrame = new JFrame();
         jFrame.setTitle("Experiment");
         jFrame.setSize(screenWidth, screenHeight);
@@ -81,8 +78,6 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
     }
 
     private Experiment() {
-        control = new Control(this);
-        timer.start();
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         this.out = new ExperimentOutput("testFile.txt", numberOfIterations);
@@ -92,22 +87,21 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
         super.paintComponent(graphics);
         graphics.setColor(Color.RED);
         graphics.fillRect(xRed, yRed, 10, 10);
-        //graphics.setColor(Color.GREEN);
-        //graphics.fillRect(xGreen, yGreen, 10, 10);
+        graphics.setColor(Color.GREEN);
+        graphics.fillRect(xGreen, yGreen, 10, 10);
     }
 
     public void actionPerformed(ActionEvent a) {
-        control.actionPerformed(a);
-        switch (state){
+        switch (state) {
             case 1:
-                doCycle(8,10,2);
+                doCycle(8, 10, 2);
                 break;
             case 2:
-                askUserDialog(3);
+                    askUserDialog(3);
                 //write result
                 break;
             case 3:
-                doCycle(10,5,6);
+                doCycle(10, 5, 6);
                 break;
             case 4:
                 //TODO
@@ -115,11 +109,11 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
                 break;
             case 5:
                 //TODO
-                state +=1;
+                state += 1;
                 break;
             case 6:
                 //TODO
-                showMessageDialog(null, "test finish", "test", OK_OPTION );
+                showMessageDialog(null, "test finish", "test", OK_OPTION);
                 timer.stop();
                 break;
         }
@@ -130,7 +124,6 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
         if (xRed < redMax) {
             movePoints(modX, modY);
             if (xRed == 800 || yGreen == 600) {
-                finish = true;
                 System.err.println("this is the end with xred= " + xRed + " and ygreen= " + yGreen + "and time = " + time);
                 this.answer(2);
                 out.writeToFile();
@@ -187,21 +180,6 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
             }
         }
         repaint();
-    }
-
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
     }
 }
 
