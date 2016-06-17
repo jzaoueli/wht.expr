@@ -29,7 +29,7 @@ public class ExperimentOutput {
         try {
             writer = new PrintWriter("data/" + filename, "UTF-8");
 
-            writer.println("Iteration, SpeedX, SpeedY, Which is percieved faster?(0=red, 1=green, 2=same Speed)");
+            writer.println("Iteration; SpeedX; SpeedY; Which is percieved faster?(0=red, 1=green, 2=same Speed)");
 
 
            /* for(int i=0;i<numberOfIterations; i++ ) {
@@ -51,7 +51,7 @@ public class ExperimentOutput {
         faster.add(iteration, Faster);*/
         iteration++;
 
-        writer.println(iteration + "," + SpeedX + "," + SpeedY + "," + Faster);
+        writer.println(iteration + ";" + SpeedX + ";" + SpeedY + ";" + Faster);
 
 
     }
