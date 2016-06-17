@@ -60,16 +60,15 @@ public class Experiment extends JPanel implements ActionListener {
         System.out.println("EndFrame wird angezeigt");
     }
 
-    private static int showStartFrame() {
+    private static String showStartFrame() {
         out.writeHeader();
-        int input = showConfirmDialog(null,
-                "to start the experiment please click on OK",
-                "Perception experiment",
-                OK_CANCEL_OPTION);
-        if (input != OK_OPTION) {
+        String name = JOptionPane.showInputDialog(null,
+                "************Start Dialog************\nPlease write your name\n-the generated data file is with your name");
+        System.out.print(name);
+        if(name==null){
             System.exit(0);
         }
-        return input;
+        return name;
     }
 
     private static void doExpr() {
@@ -166,9 +165,9 @@ public class Experiment extends JPanel implements ActionListener {
         int optionType = YES_NO_CANCEL_OPTION;
         int messageType = QUESTION_MESSAGE;
 
-        int input = 3;
-        while (input != 0 && input != 1 && input != 2) {
-            input = showOptionDialog(null, message, title, optionType, messageType, null, choices, initValue);
+        int input = showOptionDialog(null, message, title, optionType, messageType, null, choices, initValue);
+        if(input == -1 ){
+            System.exit(0);
         }
         this.answer(input);
 
