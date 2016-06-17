@@ -10,8 +10,9 @@ import java.awt.event.KeyListener;
 public class Experiment extends JPanel implements ActionListener, KeyListener {
 
     private static Control control;
-    private int xRed = 0, yRed = 100;
-    private int xGren = 100, yGreen = 0;
+    private final int numberOfIterations=1;
+    private int xRed = 0, yRed = 100, redMax = 800;
+    private int xGreen = 100, yGreen = 0, greenMax = 600;
 
     private static int screenWidth = 0;
     private static int screenHeight = 0;
@@ -22,7 +23,7 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
     public int state = 0;
 
     private static int speedX, speedY;
-
+private ExperimentOutput out;
 
     public static void main(String[] args) {
         new Experiment();
@@ -65,7 +66,6 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
                     "Perception experience",
                     JOptionPane.OK_CANCEL_OPTION);
         }
-    }
 
     private static void doExpr() {
         Experiment expr = new Experiment();
@@ -82,6 +82,7 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
         timer.start();
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
+        this.out=new ExperimentOutput("testFile.txt", numberOfIterations);
     }
 
     public void paintComponent(Graphics graphics) {
@@ -89,19 +90,39 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
         graphics.setColor(Color.RED);
         graphics.fillRect(xRed, yRed, 10, 10);
         graphics.setColor(Color.GREEN);
-        graphics.fillRect(xGren, yGreen, 10, 10);
+        graphics.fillRect(xGreen, yGreen, 10, 10);
     }
 
     public void actionPerformed(ActionEvent a) {
         control.actionPerformed(a);
         time++;
-        movePoints(8, 10);
-        if (xRed == 800 || yGreen == 600) {
-            finish = true;
-            System.err.println("this is the end with xred= " + xRed + " and ygreen= " + yGreen);
-            timer.stop();
+        if (time % 8 == 0) {
+            if (xRed < redMax) {
+                movePoints(8, 10);
+                if (xRed == 800 || yGreen == 600) {
+                    finish = true;
+                    System.err.println("this is the end with xred= " + xRed + " and ygreen= " + yGreen);
+                    timer.stop();
+                    this.answer(2);
+                    out.writeToFile();
+
+                }
+            }
         }
     }
+
+    private int computeSpeedRed() {
+       return 1;
+    }
+
+    private int computeSpeedGreen() {
+   return 1;
+    }
+
+    private void answer(int answer){
+
+    out.addIteration(0,this.computeSpeedRed(),this.computeSpeedGreen(),answer );
+}
 
     private static int askUserDialog() {
         Object[] choices = {"GREEN", "RED", "SAME SPEED"};
@@ -115,15 +136,20 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
 
     private void movePoints(int modX, int modY) {
         if (time % modX == 0) {
-            if (xRed < 800) {
+            if (xRed < redMax) {
                 xRed++;
                 repaint();
+
             }
         }
-        if (time % modY == 0) {
-            if (yGreen < 600) {
-                yGreen++;
-                repaint();
+        if (time % 10 == 0) {
+            if (yGreen < greenMax) {
+                if (time % modY == 0) {
+                    if (yGreen < 600) {
+                        yGreen++;
+                        repaint();
+                    }
+                }
             }
         }
     }
@@ -143,3 +169,4 @@ public class Experiment extends JPanel implements ActionListener, KeyListener {
 
     }
 }
+
