@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class ExperimentCSVDataFileGenerator {
     private String filename;
     private ArrayList<Integer> faster;
-    private ArrayList<Float> speedRed, speedGreen;
+    private ArrayList<Float> speedRed, speedBlue;
     private int numberOfIterations, iteration;
     PrintWriter writer;
 
@@ -19,7 +19,7 @@ public class ExperimentCSVDataFileGenerator {
         this.filename = filename;
         this.numberOfIterations = numberOfIterations;
         this.speedRed = new ArrayList<>();
-        this.speedGreen = new ArrayList<>();
+        this.speedBlue = new ArrayList<>();
         this.faster = new ArrayList<>();
 
     }
@@ -27,7 +27,7 @@ public class ExperimentCSVDataFileGenerator {
     public void writeHeader() {
         try {
             writer = new PrintWriter("data/" + filename, "UTF-8");
-            writer.println("Iteration; SpeedX; SpeedY; Which is percieved faster?(0=red, 1=green, 2=same Speed)");
+            writer.println("Iteration; SpeedX; SpeedY; faster perceived (0=R, 1=B, 2=same)");
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }

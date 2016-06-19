@@ -13,7 +13,7 @@ public class Experiment extends JPanel implements ActionListener {
 
     private final int numberOfIterations = 1;
     private int xRed = 100, yRed = 100, redMax = 800;
-    private int xGreen = 100, yGreen = 100, greenMax = 600;
+    private int xBlue = 100, yBlue = 100, BlueMax = 600;
 
     private static int screenWidth = 0;
     private static int screenHeight = 0;
@@ -96,8 +96,8 @@ public class Experiment extends JPanel implements ActionListener {
         super.paintComponent(graphics);
         graphics.setColor(Color.RED);
         graphics.fillRect(xRed, yRed, 10, 10);
-        graphics.setColor(Color.GREEN);
-        graphics.fillRect(xGreen, yGreen, 10, 10);
+        graphics.setColor(Color.BLUE);
+        graphics.fillRect(xBlue, yBlue, 10, 10);
     }
 
     public void actionPerformed(ActionEvent a) {
@@ -143,25 +143,25 @@ public class Experiment extends JPanel implements ActionListener {
         time++;
         if (xRed < redMax) {
             movePoints(modX, modY);
-            if (xRed == 800 || yGreen == 600) {
+            if (xRed == 800 || yBlue == 600) {
 
-                System.err.println("this is the end with xred= " + xRed + " and ygreen= " + yGreen + "and time = " + time);
+                System.err.println("this is the end with xred= " + xRed + " and yBlue= " + yBlue + "and time = " + time);
                 time = 0;
                 state = nextState;
                 xRed = 100;
-                yGreen = 100;
+                yBlue = 100;
             }
         }
     }
 
     private void answer(int answer) {
         float speedRed = 1 / modX;
-        float speedGreen = 1 / modY;
-        out.addIteration(speedRed, speedGreen, answer);
+        float speedBlue = 1 / modY;
+        out.addIteration(speedRed, speedBlue, answer);
     }
 
     private int askUserDialog(int nextState) {
-        Object[] choices = {"GREEN", "RED", "SAME SPEED"};
+        Object[] choices = {"BLUE", "RED", "SAME SPEED"};
         String initValue = "no choice";
         String message = "Witch point was faster?";
         String title = "Please choose an option";
@@ -185,9 +185,9 @@ public class Experiment extends JPanel implements ActionListener {
             }
         }
         if (time % modY == 0) {
-            if (yGreen < greenMax) {
-                if (yGreen < 600) {
-                    yGreen++;
+            if (yBlue < BlueMax) {
+                if (yBlue < 600) {
+                    yBlue++;
                 }
             }
         }
