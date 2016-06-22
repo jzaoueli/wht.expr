@@ -4,8 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.IOException;
 
 import static javax.swing.JOptionPane.*;
 
@@ -26,15 +25,18 @@ public class Experiment extends JPanel implements ActionListener {
     private static Experiment experiment;
 
     private static int speedX, speedY;
-    private static ExperimentCSVDataFileGenerator out = new ExperimentCSVDataFileGenerator("", 10);
     private int modX, modY;
+
+    private static CodeGeneratorFunction codeGeneratorFunction;
 
     public static void main(String[] args) {
         new Experiment();
 
         setUpFrame();
-        //setupGeneratedFile(filename)
-        showStartFrame();
+
+        String userName = showStartFrame();
+        codeGeneratorFunction = new CodeGeneratorFunction(userName);
+
         startExpr();
         showEndFrame();
     }
@@ -61,13 +63,12 @@ public class Experiment extends JPanel implements ActionListener {
     }
 
     private static String showStartFrame() {
-        out.writeHeader();
         String name = JOptionPane.showInputDialog(null,
                 "Please write your name\n-the generated data file is with your name",
                 "     ************    Start Dialog   ************",
                 PLAIN_MESSAGE);
         System.out.print(name);
-        if(name==null){
+        if (name == null) {
             System.exit(0);
         }
         return name;
@@ -88,8 +89,6 @@ public class Experiment extends JPanel implements ActionListener {
     private Experiment() {
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
-        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm").format(new Date());
-        out.setFilename("Experiment-" + timeStamp + ".csv");
     }
 
     public void paintComponent(Graphics graphics) {
@@ -101,25 +100,25 @@ public class Experiment extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent a) {
-        int input;
+        String input;
         switch (state) {
             case 1:
-                modX = 2;
+                modX = 5;
                 modY = 4;
                 doCycle(2);
                 break;
             case 2:
                 input = askUserDialog(3);
-                this.answer(input);
+                codeGeneratorFunction.appendCycle(state / 2, modX, modY, input);
                 break;
             case 3:
                 modX = 5;
-                modY = 6;
+                modY = 9;
                 doCycle(4);
                 break;
             case 4:
                 input = askUserDialog(5);
-                this.answer(input);
+                codeGeneratorFunction.appendCycle(state / 2, modX, modY, input);
                 break;
             case 5:
                 modX = 6;
@@ -128,11 +127,78 @@ public class Experiment extends JPanel implements ActionListener {
                 break;
             case 6:
                 input = askUserDialog(7);
-                this.answer(input);
+                codeGeneratorFunction.appendCycle(state / 2, modX, modY, input);
                 break;
             case 7:
+                modX = 9;
+                modY = 6;
+                doCycle(8);
+                break;
+            case 8:
+                input = askUserDialog(9);
+                codeGeneratorFunction.appendCycle(state / 2, modX, modY, input);
+                break;
+            case 9:
+                modX = 6;
+                modY = 6;
+                doCycle(10);
+                break;
+            case 10:
+                input = askUserDialog(11);
+                codeGeneratorFunction.appendCycle(state / 2, modX, modY, input);
+                break;
+            case 11:
+                modX = 9;
+                modY = 9;
+                doCycle(12);
+                break;
+            case 12:
+                input = askUserDialog(13);
+                codeGeneratorFunction.appendCycle(state / 2, modX, modY, input);
+                break;
+            case 13:
+                modX = 5;
+                modY = 4;
+                doCycle(14);
+                break;
+            case 14:
+                input = askUserDialog(15);
+                codeGeneratorFunction.appendCycle(state / 2, modX, modY, input);
+                break;
+            case 15:
+                modX = 6;
+                modY = 9;
+                doCycle(16);
+                break;
+            case 16:
+                input = askUserDialog(17);
+                codeGeneratorFunction.appendCycle(state / 2, modX, modY, input);
+                break;
+            case 17:
+                modX = 6;
+                modY = 9;
+                doCycle(18);
+                break;
+            case 18:
+                input = askUserDialog(19);
+                codeGeneratorFunction.appendCycle(state / 2, modX, modY, input);
+                break;
+            case 19:
+                modX = 6;
+                modY = 9;
+                doCycle(20);
+                break;
+            case 20:
+                input = askUserDialog(21);
+                codeGeneratorFunction.appendCycle(state / 2, modX, modY, input);
+                break;
+            case 21:
+                try {
+                    codeGeneratorFunction.createAndWriteInFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 showMessageDialog(null, "The experiment result is in data folder", "Experience over", JOptionPane.WARNING_MESSAGE);
-                out.close();
                 experiment.timer.stop();
                 jFrame.dispose();
                 break;
@@ -154,13 +220,7 @@ public class Experiment extends JPanel implements ActionListener {
         }
     }
 
-    private void answer(int answer) {
-        float speedRed = 1 / modX;
-        float speedBlue = 1 / modY;
-        out.addIteration(speedRed, speedBlue, answer);
-    }
-
-    private int askUserDialog(int nextState) {
+    private String askUserDialog(int nextState) {
         Object[] choices = {"BLUE", "RED", "SAME SPEED"};
         String initValue = "no choice";
         String message = "Witch point was faster?";
@@ -169,13 +229,19 @@ public class Experiment extends JPanel implements ActionListener {
         int messageType = QUESTION_MESSAGE;
 
         int input = showOptionDialog(null, message, title, optionType, messageType, null, choices, initValue);
-        if(input == -1 ){
-            System.exit(0);
-        }
-        this.answer(input);
-
         state = nextState;
-        return input;
+        switch (input){
+            case 0:
+                return "BLUE";
+            case 1:
+                return "RED";
+            case 2:
+                return "SAME SPEED";
+            case -1:
+                System.exit(0);
+                break;
+        }
+        return null;
     }
 
     private void movePoints(int modX, int modY) {
