@@ -5,13 +5,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 
+import static java.lang.Integer.valueOf;
 import static javax.swing.JOptionPane.*;
 
 public class Experiment extends JPanel implements ActionListener {
 
-    private int xRed = 100, yRed = 100, redMax = 800;
-    private int xBlue = 100, yBlue = 100, BlueMax = 600;
+    private int xRed = 100, yRed = 80, redMax = 800;
+    private int xBlue = 80, yBlue = 100, BlueMax = 600;
 
     private static int screenWidth = 0;
     private static int screenHeight = 0;
@@ -19,6 +22,8 @@ public class Experiment extends JPanel implements ActionListener {
     private Timer timer = new Timer(1, this);
     private int time = 0;
     private int state = 1;
+
+    private static ArrayList<String> speedArray;
 
     private static JFrame jFrame;
     private static Experiment experiment;
@@ -85,6 +90,33 @@ public class Experiment extends JPanel implements ActionListener {
     private Experiment() {
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
+        speedArray = new ArrayList();
+        initArrayList(speedArray);
+        setNewSpeed();
+    }
+
+    private static void initArrayList(ArrayList<String> speedArray) {
+
+        speedArray.add("3,6");
+        speedArray.add("3,5");
+        speedArray.add("3,4");
+        speedArray.add("3,3");
+        speedArray.add("3,7");
+        speedArray.add("4,2");
+        speedArray.add("4,5");
+        speedArray.add("2,1");
+        speedArray.add("1,1");
+        speedArray.add("6,9");
+        Collections.shuffle(speedArray);
+
+    }
+
+    private void setNewSpeed(){
+        String speeds=speedArray.get(0);
+
+        this.modX=valueOf(speeds.substring(0,1));
+        this.modY=valueOf(speeds.substring(2));
+        speedArray.remove(0);
     }
 
     public void paintComponent(Graphics graphics) {
@@ -99,8 +131,7 @@ public class Experiment extends JPanel implements ActionListener {
         String input;
         switch (state) {
             case 1:
-                modX = 5;
-                modY = 4;
+
                 doCycle(2);
                 break;
             case 2:
@@ -108,8 +139,6 @@ public class Experiment extends JPanel implements ActionListener {
                 codeGeneratorFunction.appendCycle(state / 2, modX, modY, input);
                 break;
             case 3:
-                modX = 5;
-                modY = 9;
                 doCycle(4);
                 break;
             case 4:
@@ -117,8 +146,6 @@ public class Experiment extends JPanel implements ActionListener {
                 codeGeneratorFunction.appendCycle(state / 2, modX, modY, input);
                 break;
             case 5:
-                modX = 6;
-                modY = 9;
                 doCycle(6);
                 break;
             case 6:
@@ -126,17 +153,13 @@ public class Experiment extends JPanel implements ActionListener {
                 codeGeneratorFunction.appendCycle(state / 2, modX, modY, input);
                 break;
             case 7:
-                modX = 9;
-                modY = 6;
                 doCycle(8);
                 break;
             case 8:
-                input = askUserDialog(9);
+                input = askUserDialog(21);
                 codeGeneratorFunction.appendCycle(state / 2, modX, modY, input);
                 break;
             case 9:
-                modX = 6;
-                modY = 6;
                 doCycle(10);
                 break;
             case 10:
@@ -144,8 +167,6 @@ public class Experiment extends JPanel implements ActionListener {
                 codeGeneratorFunction.appendCycle(state / 2, modX, modY, input);
                 break;
             case 11:
-                modX = 9;
-                modY = 9;
                 doCycle(12);
                 break;
             case 12:
@@ -153,8 +174,6 @@ public class Experiment extends JPanel implements ActionListener {
                 codeGeneratorFunction.appendCycle(state / 2, modX, modY, input);
                 break;
             case 13:
-                modX = 5;
-                modY = 4;
                 doCycle(14);
                 break;
             case 14:
@@ -162,8 +181,6 @@ public class Experiment extends JPanel implements ActionListener {
                 codeGeneratorFunction.appendCycle(state / 2, modX, modY, input);
                 break;
             case 15:
-                modX = 6;
-                modY = 9;
                 doCycle(16);
                 break;
             case 16:
@@ -171,8 +188,6 @@ public class Experiment extends JPanel implements ActionListener {
                 codeGeneratorFunction.appendCycle(state / 2, modX, modY, input);
                 break;
             case 17:
-                modX = 6;
-                modY = 9;
                 doCycle(18);
                 break;
             case 18:
@@ -180,8 +195,6 @@ public class Experiment extends JPanel implements ActionListener {
                 codeGeneratorFunction.appendCycle(state / 2, modX, modY, input);
                 break;
             case 19:
-                modX = 6;
-                modY = 9;
                 doCycle(20);
                 break;
             case 20:
@@ -212,14 +225,15 @@ public class Experiment extends JPanel implements ActionListener {
                 state = nextState;
                 xRed = 100;
                 yBlue = 100;
+                setNewSpeed();
             }
         }
     }
 
     private String askUserDialog(int nextState) {
-        Object[] choices = {"BLUE", "RED", "SAME SPEED"};
+        Object[] choices = {"BLUE(up-down)", "RED(left-right)", "SAME SPEED"};
         String initValue = "no choice";
-        String message = "Witch point was faster?";
+        String message = "Which point was faster?";
         String title = "Please choose an option";
         int optionType = YES_NO_CANCEL_OPTION;
         int messageType = QUESTION_MESSAGE;
