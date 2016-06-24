@@ -10,7 +10,6 @@ import static javax.swing.JOptionPane.*;
 
 public class Experiment extends JPanel implements ActionListener {
 
-    private final int numberOfIterations = 1;
     private int xRed = 100, yRed = 100, redMax = 800;
     private int xBlue = 100, yBlue = 100, BlueMax = 600;
 
@@ -24,7 +23,6 @@ public class Experiment extends JPanel implements ActionListener {
     private static JFrame jFrame;
     private static Experiment experiment;
 
-    private static int speedX, speedY;
     private int modX, modY;
 
     private static CodeGeneratorFunction codeGeneratorFunction;
@@ -48,8 +46,6 @@ public class Experiment extends JPanel implements ActionListener {
     }
 
     private static void startExpr() {
-        speedX = 1;
-        speedY = 1;
         doExpr();
         doUserChoice();
     }

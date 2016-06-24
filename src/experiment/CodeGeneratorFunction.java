@@ -18,7 +18,6 @@ import java.util.Calendar;
 class CodeGeneratorFunction {
 
     private String workingString = "";
-    private String subjectName;
     private String path = "";
 
     /**
@@ -27,14 +26,14 @@ class CodeGeneratorFunction {
      * @param subjectName : name of test person will be the name of generated file
      */
     CodeGeneratorFunction(String subjectName) {
-        this.subjectName = subjectName;
-        path = "data/" + subjectName + getTime() + ".csv";
-        this.workingString = "cycleID;speed red;speed blue;userPerception\n";
+        path = "data/" + subjectName + "-" + getTime() + ".csv";
+        this.workingString = "cycleID;speed red (pxl/frame);speed blue(pxl/frame);userPerception\n";
     }
 
     void appendCycle(int cycleID, int modX, int modY, String userPerception) {
         //TODO get speed instead of modX and modY
-        this.workingString += cycleID + ";" + modX + ";" + 1 / modY + ";" + userPerception + "\n";
+
+        this.workingString += cycleID + ";" + (float) 1 / modX + ";" + (float) 1 / modY + ";" + userPerception + "\n";
     }
 
     /**
