@@ -27,7 +27,7 @@ class CodeGeneratorFunction {
      */
     CodeGeneratorFunction(String subjectName) {
         path = "data/" + subjectName + "-" + getTime() + ".csv";
-        this.workingString = "cycleID;speed red (pxl/frame);speed blue(pxl/frame);userPerception\n";
+        this.workingString = "cycleID;speed red (pixel/frame left-right);speed blue(pixel/frame up-down);userPerception\n";
     }
 
     void appendCycle(int cycleID, int modX, int modY, String userPerception) {
@@ -48,6 +48,7 @@ class CodeGeneratorFunction {
         writer.write(workingString);
         writer.flush();
         writer.close();
+
     }
 
     private String getTime() {

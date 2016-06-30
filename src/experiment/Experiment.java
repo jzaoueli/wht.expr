@@ -13,15 +13,19 @@ import static javax.swing.JOptionPane.*;
 
 public class Experiment extends JPanel implements ActionListener {
 
-    private int xRed = 100, yRed = 80, redMax = 800;
-    private int xBlue = 80, yBlue = 100, BlueMax = 600;
+    private int xRed = screenWidth/4+100, yRed = screenHeight/4+80, redMax = screenWidth/4+screenWidth/2;
+    private int xBlue = screenWidth/4+80, yBlue = screenHeight/4+100, blueMax = screenHeight/4+screenHeight/2;
 
     private static int screenWidth = 0;
     private static int screenHeight = 0;
-
+    private int xRedStart = screenWidth/4+100, yRedStart = screenHeight/4+80;
+    private int xBlueStart = screenWidth/4+80, yBlueStart = screenHeight/4+100;
+private static int baseSpeed= 6;
+    private static Font myFont = new Font("serif", Font.PLAIN, 180);
     private Timer timer = new Timer(1, this);
     private int time = 0;
     private int state = 1;
+    private static JOptionPane opts= new JOptionPane(myFont);
 
     private static ArrayList<String> speedArray;
 
@@ -34,7 +38,8 @@ public class Experiment extends JPanel implements ActionListener {
 
     public static void main(String[] args) {
         new Experiment();
-
+        UIManager.getLookAndFeelDefaults()
+                .put("defaultFont", new Font("Arial", Font.BOLD, 104));
         setUpFrame();
 
         String userName = showStartFrame();
@@ -64,9 +69,18 @@ public class Experiment extends JPanel implements ActionListener {
     }
 
     private static String showStartFrame() {
+
         String name = JOptionPane.showInputDialog(null,
-                "Please write your name\n-the generated data file is with your name",
-                "     ************    Start Dialog   ************",
+                "Dear participant! \n" +
+                        "In this experiment we want to find out if the perception of speed \n" +
+                        "correlates with the direction of a moving object.\n"+
+                        "When the experiment starts, you will see two rectangles,\n" +
+                        " a red one and a blue one.\n"+
+                        "They move at different speeds and in different directions.\n"+
+                        "Your task is to decide, which rectangle moves faster.\n\n"+
+                        "ATTENTION: There will not be a test round, please focus now!\n"+
+                        "Please enter your name or alias",
+                "    Welcome!",
                 PLAIN_MESSAGE);
         System.out.print(name);
         if (name == null) {
@@ -97,18 +111,20 @@ public class Experiment extends JPanel implements ActionListener {
 
     private static void initArrayList(ArrayList<String> speedArray) {
 
-        speedArray.add("3,6");
-        speedArray.add("3,5");
-        speedArray.add("3,4");
         speedArray.add("3,3");
-        speedArray.add("3,7");
-        speedArray.add("4,2");
+        speedArray.add("4,4");
+        speedArray.add("5,5");
+        speedArray.add("4,3");
+        speedArray.add("3,4");
+        speedArray.add("5,4");
         speedArray.add("4,5");
-        speedArray.add("2,1");
-        speedArray.add("1,1");
-        speedArray.add("6,9");
-        Collections.shuffle(speedArray);
+        speedArray.add("3,5");
+        speedArray.add("5,3");
+        speedArray.add("6,3");
+        speedArray.add("3,6");
 
+        Collections.shuffle(speedArray);
+        speedArray.add("1,1");
     }
 
     private void setNewSpeed(){
@@ -156,7 +172,7 @@ public class Experiment extends JPanel implements ActionListener {
                 doCycle(8);
                 break;
             case 8:
-                input = askUserDialog(21);
+                input = askUserDialog(9);
                 codeGeneratorFunction.appendCycle(state / 2, modX, modY, input);
                 break;
             case 9:
@@ -207,7 +223,9 @@ public class Experiment extends JPanel implements ActionListener {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                showMessageDialog(null, "The experiment result is in data folder", "Experience over", JOptionPane.WARNING_MESSAGE);
+                JOptionPane opts=new JOptionPane();
+                opts.setFont(myFont);
+                showMessageDialog(null, "Thank you for participating!", "Experience over", opts.WARNING_MESSAGE);
                 experiment.timer.stop();
                 jFrame.dispose();
                 break;
@@ -216,15 +234,16 @@ public class Experiment extends JPanel implements ActionListener {
 
     private void doCycle(int nextState) {
         time++;
-        if (xRed < redMax) {
+        int redMaxRand= redMax+(int)(Math.random()*100);
+        if (xRed < redMaxRand) {
             movePoints(modX, modY);
-            if (xRed == 800 || yBlue == 600) {
+            if (xRed >= redMaxRand || yBlue >= blueMax) {
 
                 System.err.println("this is the end with xred= " + xRed + " and yBlue= " + yBlue + "and time = " + time);
                 time = 0;
                 state = nextState;
-                xRed = 100;
-                yBlue = 100;
+                xRed = yRedStart+(int)(Math.random()*100);
+                yBlue = yBlueStart+(int)(Math.random()*100);
                 setNewSpeed();
             }
         }
@@ -261,10 +280,10 @@ public class Experiment extends JPanel implements ActionListener {
             }
         }
         if (time % modY == 0) {
-            if (yBlue < BlueMax) {
-                if (yBlue < 600) {
+            if (yBlue < blueMax) {
+
                     yBlue++;
-                }
+
             }
         }
         repaint();
