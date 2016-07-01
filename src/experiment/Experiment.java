@@ -13,19 +13,19 @@ import static javax.swing.JOptionPane.*;
 
 public class Experiment extends JPanel implements ActionListener {
 
-    private int xRed = screenWidth/4+100, yRed = screenHeight/4+80, redMax = screenWidth/4+screenWidth/2;
-    private int xBlue = screenWidth/4+80, yBlue = screenHeight/4+100, blueMax = screenHeight/4+screenHeight/2;
+    private int xRed = screenWidth / 4 + 100, yRed = screenHeight / 4 + 80, redMax = screenWidth / 4 + screenWidth / 2;
+    private int xBlue = screenWidth / 4 + 80, yBlue = screenHeight / 4 + 100, blueMax = screenHeight / 4 + screenHeight / 2;
 
     private static int screenWidth = 0;
     private static int screenHeight = 0;
-    private int xRedStart = screenWidth/4+100, yRedStart = screenHeight/4+80;
-    private int xBlueStart = screenWidth/4+80, yBlueStart = screenHeight/4+100;
-private static int baseSpeed= 6;
+    private int xRedStart = screenWidth / 4 + 100, yRedStart = screenHeight / 4 + 80;
+    private int xBlueStart = screenWidth / 4 + 80, yBlueStart = screenHeight / 4 + 100;
+    private static int baseSpeed = 6;
     private static Font myFont = new Font("serif", Font.PLAIN, 180);
     private Timer timer = new Timer(1, this);
     private int time = 0;
     private int state = 1;
-    private static JOptionPane opts= new JOptionPane(myFont);
+    private static JOptionPane opts = new JOptionPane(myFont);
 
     private static ArrayList<String> speedArray;
 
@@ -45,7 +45,7 @@ private static int baseSpeed= 6;
         String userName = showStartFrame();
         codeGeneratorFunction = new CodeGeneratorFunction(userName);
 
-        startExpr();
+        doExpr();
         showEndFrame();
     }
 
@@ -53,15 +53,6 @@ private static int baseSpeed= 6;
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         screenWidth = gd.getDisplayMode().getWidth();
         screenHeight = gd.getDisplayMode().getHeight();
-    }
-
-    private static void startExpr() {
-        doExpr();
-        doUserChoice();
-    }
-
-    private static void doUserChoice() {
-
     }
 
     private static void showEndFrame() {
@@ -73,12 +64,12 @@ private static int baseSpeed= 6;
         String name = JOptionPane.showInputDialog(null,
                 "Dear participant! \n" +
                         "In this experiment we want to find out if the perception of speed \n" +
-                        "correlates with the direction of a moving object.\n"+
+                        "correlates with the direction of a moving object.\n" +
                         "When the experiment starts, you will see two rectangles,\n" +
-                        " a red one and a blue one.\n"+
-                        "They move at different speeds and in different directions.\n"+
-                        "Your task is to decide, which rectangle moves faster.\n\n"+
-                        "ATTENTION: There will not be a test round, please focus now!\n"+
+                        " a red one and a blue one.\n" +
+                        "They move at different speeds and in different directions.\n" +
+                        "Your task is to decide, which rectangle moves faster.\n\n" +
+                        "ATTENTION: There will not be a test round, please focus now!\n" +
                         "Please enter your name or alias",
                 "    Welcome!",
                 PLAIN_MESSAGE);
@@ -110,7 +101,6 @@ private static int baseSpeed= 6;
     }
 
     private static void initArrayList(ArrayList<String> speedArray) {
-
         speedArray.add("3,3");
         speedArray.add("4,4");
         speedArray.add("5,5");
@@ -127,11 +117,11 @@ private static int baseSpeed= 6;
         speedArray.add("1,1");
     }
 
-    private void setNewSpeed(){
-        String speeds=speedArray.get(0);
+    private void setNewSpeed() {
+        String speeds = speedArray.get(0);
 
-        this.modX=valueOf(speeds.substring(0,1));
-        this.modY=valueOf(speeds.substring(2));
+        this.modX = valueOf(speeds.substring(0, 1));
+        this.modY = valueOf(speeds.substring(2));
         speedArray.remove(0);
     }
 
@@ -151,7 +141,7 @@ private static int baseSpeed= 6;
                 doCycle(2);
                 break;
             case 2:
-                input = askUserDialog(3);
+                input = askUserDialog(21);
                 codeGeneratorFunction.appendCycle(state / 2, modX, modY, input);
                 break;
             case 3:
@@ -223,9 +213,9 @@ private static int baseSpeed= 6;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                JOptionPane opts=new JOptionPane();
+                JOptionPane opts = new JOptionPane();
                 opts.setFont(myFont);
-                showMessageDialog(null, "Thank you for participating!", "Experience over", opts.WARNING_MESSAGE);
+                showMessageDialog(null, "Thank you for participating!", "Experience over", WARNING_MESSAGE);
                 experiment.timer.stop();
                 jFrame.dispose();
                 break;
@@ -234,16 +224,15 @@ private static int baseSpeed= 6;
 
     private void doCycle(int nextState) {
         time++;
-        int redMaxRand= redMax+(int)(Math.random()*100);
+        int redMaxRand = redMax + (int) (Math.random() * 100);
         if (xRed < redMaxRand) {
             movePoints(modX, modY);
             if (xRed >= redMaxRand || yBlue >= blueMax) {
-
                 System.err.println("this is the end with xred= " + xRed + " and yBlue= " + yBlue + "and time = " + time);
                 time = 0;
                 state = nextState;
-                xRed = yRedStart+(int)(Math.random()*100);
-                yBlue = yBlueStart+(int)(Math.random()*100);
+                xRed = yRedStart + (int) (Math.random() * 100);
+                yBlue = yBlueStart + (int) (Math.random() * 100);
                 setNewSpeed();
             }
         }
@@ -259,7 +248,7 @@ private static int baseSpeed= 6;
 
         int input = showOptionDialog(null, message, title, optionType, messageType, null, choices, initValue);
         state = nextState;
-        switch (input){
+        switch (input) {
             case 0:
                 return "BLUE";
             case 1:
@@ -277,15 +266,11 @@ private static int baseSpeed= 6;
         if (time % modX == 0) {
             if (xRed < redMax) {
                 xRed++;
-
             }
         }
         if (time % modY == 0) {
             if (yBlue < blueMax) {
-
-                    yBlue++;
-
-
+                yBlue++;
             }
         }
         repaint();
