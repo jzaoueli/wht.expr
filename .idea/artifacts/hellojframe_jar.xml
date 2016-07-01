@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/hellojframe_jar</output-path>
     <root id="archive" name="hellojframe.jar">
       <element id="module-output" name="hellojframe" />
+      <element id="extracted-dir" path="$USER_HOME$/GitHub/Battle-Craft/BC/BattleCraft/antlr/antlr-4.5.3-complete.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

@@ -26,7 +26,7 @@ class CodeGeneratorFunction {
      * @param subjectName : name of test person will be the name of generated file
      */
     CodeGeneratorFunction(String subjectName) {
-        path = "data/" + subjectName + "-" + getTime() + ".csv";
+        path = "UEG02/" + subjectName + "-" + getTime() + ".csv";
         this.workingString = "cycleID;speed red (pixel/frame left-right);speed blue(pixel/frame up-down);userPerception\n";
     }
 

@@ -120,8 +120,8 @@ private static int baseSpeed= 6;
         speedArray.add("4,5");
         speedArray.add("3,5");
         speedArray.add("5,3");
-        speedArray.add("6,3");
-        speedArray.add("3,6");
+        speedArray.add("6,4");
+        speedArray.add("4,6");
 
         Collections.shuffle(speedArray);
         speedArray.add("1,1");
@@ -277,12 +277,14 @@ private static int baseSpeed= 6;
         if (time % modX == 0) {
             if (xRed < redMax) {
                 xRed++;
+
             }
         }
         if (time % modY == 0) {
             if (yBlue < blueMax) {
 
                     yBlue++;
+
 
             }
         }
